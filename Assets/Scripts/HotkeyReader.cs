@@ -1,11 +1,14 @@
+using System;
 using UnityEngine;
 
 public class HotkeyReader : MonoBehaviour
 {
     private const string HorizontalAxis = "Horizontal";
 
-    [SerializeField] private Character _characterPlayer;
     [SerializeField] private KeyCode KeyJump = KeyCode.Space;
+
+    public event Action<float> PressedMove;
+    public event Action PressedJump;
 
     private void Update()
     {
@@ -15,13 +18,13 @@ public class HotkeyReader : MonoBehaviour
 
     private void ListenWalkInput()
     {
-        float factor = Input.GetAxisRaw(HorizontalAxis);
-        _characterPlayer.Move(factor);
+        float factor = Input.GetAxisRaw(HorizontalAxis);        
+        PressedMove?.Invoke(factor);
     }
 
     private void ListenJumpInput()
     {
         if (Input.GetKeyDown(KeyJump))
-            _characterPlayer.Jump();
+            PressedJump?.Invoke();
     }
 }

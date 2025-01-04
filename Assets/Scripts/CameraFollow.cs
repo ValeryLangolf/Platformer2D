@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Camera))]
 public class CameraFollow : MonoBehaviour
 {
     [SerializeField] private Player _target;
@@ -12,7 +11,7 @@ public class CameraFollow : MonoBehaviour
 
     private void Awake()
     {
-        _camera = GetComponent<Camera>();
+        _camera = Camera.main;
     }
 
     private void LateUpdate()

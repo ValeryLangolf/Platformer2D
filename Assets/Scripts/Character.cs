@@ -2,15 +2,14 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
-    [SerializeField] private Detector _groundDetector;
-    [SerializeField] private Detector _leftWallDetector;
-    [SerializeField] private Detector _rightWallDetector;
+    [SerializeField] private GroundDetector _groundDetector;
+    [SerializeField] private WallDetector _leftWallDetector;
+    [SerializeField] private WallDetector _rightWallDetector;
     [SerializeField] private AnimatorWrapper _animatorWrapper;
     [SerializeField] private Rotator _rotator;
     [SerializeField] private Jumper _jumper;
     [SerializeField] private Mover _mover;
 
-    private bool _isGrounded;
     private bool _isLeftWall;
     private bool _isRightWall;
 
@@ -18,25 +17,25 @@ public class Character : MonoBehaviour
     {
         _groundDetector.Grounded += OnGrounded;
         _groundDetector.InAir += OnInAir;
-        _leftWallDetector.Grounded += OnLeftWallDetected;
-        _leftWallDetector.InAir += OnLeftWallUndetected;
-        _rightWallDetector.Grounded += OnRightWallDetected;
-        _rightWallDetector.InAir += OnRightWallUndetected;
+        _leftWallDetector.InWall += OnLeftWallDetected;
+        _leftWallDetector.OutWall += OnLeftWallUndetected;
+        _rightWallDetector.InWall += OnRightWallDetected;
+        _rightWallDetector.OutWall += OnRightWallUndetected;
     }
 
     private void OnDisable()
     {
         _groundDetector.Grounded -= OnGrounded;
         _groundDetector.InAir -= OnInAir;
-        _leftWallDetector.Grounded -= OnLeftWallDetected;
-        _leftWallDetector.InAir -= OnLeftWallUndetected;
-        _rightWallDetector.Grounded -= OnRightWallDetected;
-        _rightWallDetector.InAir -= OnRightWallUndetected;
+        _leftWallDetector.InWall -= OnLeftWallDetected;
+        _leftWallDetector.OutWall -= OnLeftWallUndetected;
+        _rightWallDetector.InWall -= OnRightWallDetected;
+        _rightWallDetector.OutWall -= OnRightWallUndetected;
     }
 
     public void Jump()
     {
-        if (_isGrounded)
+        if (_groundDetector.IsGrounded)
         {
             _jumper.Jump();
             _animatorWrapper.EnableJump();
@@ -57,7 +56,7 @@ public class Character : MonoBehaviour
         }
         else
         {
-            if (_isGrounded)
+            if (_groundDetector.IsGrounded)
                 _animatorWrapper.EnableIdle();
 
             return;
@@ -68,13 +67,11 @@ public class Character : MonoBehaviour
 
     private void OnGrounded()
     {
-        _isGrounded = true;
         _animatorWrapper.EnableGround();
     }
 
     private void OnInAir()
     {
-        _isGrounded = false;
         _animatorWrapper.DisableGround();
     }
 
