@@ -13843,7 +13843,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _hotkeyReader: {fileID: 786358895}
   _itemDetector: {fileID: 533625595}
-  _player: {fileID: 786358898}
+  _character: {fileID: 786358898}
 --- !u!114 &786358894
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -3,19 +3,19 @@ using UnityEngine;
 
 public class GroundDetector : MonoBehaviour
 {
+    private int _numberOccurrences;
+
     public event Action Grounded;
     public event Action InAir;
 
     public bool IsGrounded => _numberOccurrences != 0;
 
-    private int _numberOccurrences;
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.transform.TryGetComponent<Ground>(out _))
         {
-            _numberOccurrences++;
-            Grounded?.Invoke();
+            if(++_numberOccurrences == 1)
+                Grounded?.Invoke();
         }
     }
 
