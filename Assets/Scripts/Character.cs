@@ -1,17 +1,25 @@
+using System;
 using UnityEngine;
 
 public class Character : MonoBehaviour
 {
-    [SerializeField] private GroundDetector _groundDetector;
+    [SerializeField] private GroundCollider _groundDetector;
     [SerializeField] private WallDetector _leftWallDetector;
     [SerializeField] private WallDetector _rightWallDetector;
     [SerializeField] private AnimatorWrapper _animatorWrapper;
     [SerializeField] private Rotator _rotator;
     [SerializeField] private Jumper _jumper;
     [SerializeField] private Mover _mover;
+    [SerializeField] private Health _health;
+    [SerializeField] private Attacker _attacker;
+    [SerializeField] private ZoneAttack _zoneAttack;
 
     private bool _isLeftWall;
     private bool _isRightWall;
+    private float _damage;
+
+    public event Action TouchedWall;
+    public event Action UntouchedWall;
 
     private void OnEnable()
     {
@@ -21,6 +29,7 @@ public class Character : MonoBehaviour
         _leftWallDetector.OutWall += OnLeftWallUndetected;
         _rightWallDetector.InWall += OnRightWallDetected;
         _rightWallDetector.OutWall += OnRightWallUndetected;
+        _attacker.HitAttacked += Hit;
     }
 
     private void OnDisable()
@@ -31,27 +40,28 @@ public class Character : MonoBehaviour
         _leftWallDetector.OutWall -= OnLeftWallUndetected;
         _rightWallDetector.InWall -= OnRightWallDetected;
         _rightWallDetector.OutWall -= OnRightWallUndetected;
+        _attacker.HitAttacked -= Hit;
     }
 
-    public void Jump()
+    public void Jump(float force)
     {
         if (_groundDetector.IsGrounded)
         {
-            _jumper.Jump();
+            _jumper.Jump(force);
             _animatorWrapper.EnableJump();
         }
     }
 
-    public void Move(float factor)
+    public void Move(float factor, float speed)
     {
         if (factor < 0 && _isLeftWall == false)
         {
-            _mover.Move(factor);
+            _mover.Move(factor * speed);
             _rotator.RotateLeft();
         }
         else if (factor > 0 && _isRightWall == false)
         {
-            _mover.Move(factor);
+            _mover.Move(factor * speed);
             _rotator.RotateRight();
         }
         else
@@ -63,6 +73,23 @@ public class Character : MonoBehaviour
         }
 
         _animatorWrapper.EnableWalking();
+    }
+
+    public void Attack(float damage)
+    {
+        _damage = damage;
+        _animatorWrapper.EnableAttack();
+    }
+
+    public void Hit()
+    {
+        if (_zoneAttack.Character != null)
+            _zoneAttack.Character.TakeDamage(_damage);
+    }
+
+    public void TakeDamage(float damage)
+    {
+        _health.TakeDamage(damage);
     }
 
     private void OnGrounded()
@@ -78,20 +105,24 @@ public class Character : MonoBehaviour
     private void OnLeftWallDetected()
     {
         _isLeftWall = true;
+        TouchedWall?.Invoke();
     }
 
     private void OnLeftWallUndetected()
     {
         _isLeftWall = false;
+        UntouchedWall?.Invoke();
     }
 
     private void OnRightWallDetected()
     {
         _isRightWall = true;
+        TouchedWall?.Invoke();
     }
 
     private void OnRightWallUndetected()
     {
         _isRightWall = false;
+        UntouchedWall?.Invoke();
     }
 }

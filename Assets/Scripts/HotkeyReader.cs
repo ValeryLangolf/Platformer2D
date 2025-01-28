@@ -5,26 +5,35 @@ public class HotkeyReader : MonoBehaviour
 {
     private const string HorizontalAxis = "Horizontal";
 
-    [SerializeField] private KeyCode KeyJump = KeyCode.Space;
+    [SerializeField] private KeyCode _keyJump;
+    [SerializeField] private KeyCode _keyAttack;
 
     public event Action<float> PressedMove;
     public event Action PressedJump;
+    public event Action PressedAttack;
 
     private void Update()
     {
-        ListenWalkInput();
-        ListenJumpInput();
+        HandleMovementInput();
+        HandleJumpInput();
+        HandleAttackInput();
     }
 
-    private void ListenWalkInput()
+    private void HandleMovementInput()
     {
-        float factor = Input.GetAxisRaw(HorizontalAxis);        
+        float factor = Input.GetAxisRaw(HorizontalAxis);
         PressedMove?.Invoke(factor);
     }
 
-    private void ListenJumpInput()
+    private void HandleJumpInput()
     {
-        if (Input.GetKeyDown(KeyJump))
+        if (Input.GetKeyDown(_keyJump))
             PressedJump?.Invoke();
+    }
+
+    private void HandleAttackInput()
+    {
+        if (Input.GetKeyDown(_keyAttack))
+            PressedAttack?.Invoke();
     }
 }

@@ -2,15 +2,10 @@ using UnityEngine;
 
 public class Mover : MonoBehaviour
 {
-    [SerializeField] private float _speed;
-
-    public void Move(float factor)
+    public void Move(float value)
     {
-        if (factor == 0)
-            return;
-
         Vector3 position = transform.position;
-        position.x += factor * _speed * Time.deltaTime;
+        position.x += value * Time.deltaTime;
         transform.position = position;
     }
 }

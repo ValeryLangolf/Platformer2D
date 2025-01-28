@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    [SerializeField] private Player _target;
+    [SerializeField] private Character _target;
     [SerializeField] private Transform _minPosition;
     [SerializeField] private Transform _maxPosition;
     [SerializeField] private float _smoothSpeed;
@@ -16,6 +16,9 @@ public class CameraFollow : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (_target == null) 
+            return;
+
         Vector3 desiredPosition = new Vector3(_target.transform.position.x, _target.transform.position.y, transform.position.z);
 
         float halfHeight = _camera.orthographicSize;

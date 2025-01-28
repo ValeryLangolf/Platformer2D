@@ -3,8 +3,6 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Jumper : MonoBehaviour
 {
-    [SerializeField] private float _force;
-
     private Rigidbody2D _rigidbody;
 
     private void Awake()
@@ -12,8 +10,8 @@ public class Jumper : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody2D>();
     }
 
-    public void Jump()
+    public void Jump(float force)
     {
-        _rigidbody.AddForce(Vector2.up * _force, ForceMode2D.Impulse);
+        _rigidbody.AddForce(Vector2.up * force, ForceMode2D.Impulse);
     }
 }

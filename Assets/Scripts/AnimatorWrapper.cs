@@ -1,18 +1,13 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
 public class AnimatorWrapper : MonoBehaviour
 {
-    private const string WalkingName = "IsRunning";
-    private const string JumpName = "Jump";
+    private const string WalkingName = "IsWalking";
+    private const string JumpTriggerName = "Jump";
+    private const string AttackTriggerName = "Attack";
     private const string GroundedName = "IsGrounded";
 
-    private Animator _animator;
-
-    private void Awake()
-    {
-        _animator = GetComponent<Animator>();
-    }
+    [SerializeField] private Animator _animator;
 
     public void EnableIdle()
     {
@@ -26,7 +21,12 @@ public class AnimatorWrapper : MonoBehaviour
 
     public void EnableJump()
     {
-        _animator.SetTrigger(JumpName);
+        _animator.SetTrigger(JumpTriggerName);
+    }
+
+    public void EnableAttack()
+    {
+        _animator.SetTrigger(AttackTriggerName);
     }
 
     public void EnableGround()
