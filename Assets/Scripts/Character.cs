@@ -67,7 +67,7 @@ public class Character : MonoBehaviour
         else
         {
             if (_groundDetector.IsGrounded)
-                _animatorWrapper.EnableIdle();
+                _animatorWrapper.DisableWalking();
 
             return;
         }

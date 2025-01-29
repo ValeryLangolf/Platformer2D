@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class HotkeyReader : MonoBehaviour
+public class InputService : MonoBehaviour
 {
     private const string HorizontalAxis = "Horizontal";
 

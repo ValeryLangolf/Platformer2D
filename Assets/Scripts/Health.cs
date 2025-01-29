@@ -12,6 +12,9 @@ public class Health : MonoBehaviour
 
     public void TakeDamage(float value)
     {
+        if (value < 0)
+            throw new ArgumentException(ErrorMessages.NegativeValue);
+
         _health -= value;
 
         Changed?.Invoke(_health);
@@ -22,6 +25,9 @@ public class Health : MonoBehaviour
 
     public void Heal(float value)
     {
+        if (value < 0)
+            throw new ArgumentException(ErrorMessages.NegativeValue);
+
         _health += value;
 
         if (_health > MaxHP)

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private HotkeyReader _hotkeyReader;
+    [SerializeField] private InputService _inputService;
     [SerializeField] private BodyCollider _bodyCollider;
     [SerializeField] private Character _character;
     [SerializeField] private Health _health;
@@ -14,9 +14,9 @@ public class Player : MonoBehaviour
 
     private void OnEnable()
     {
-        _hotkeyReader.PressedMove += Move;
-        _hotkeyReader.PressedJump += Jump;
-        _hotkeyReader.PressedAttack += Attack;
+        _inputService.PressedMove += Move;
+        _inputService.PressedJump += Jump;
+        _inputService.PressedAttack += Attack;
         _bodyCollider.CoinCollected += CoinCollect;
         _bodyCollider.HealerCollected += Heal;
         _health.Died += OnDied;
@@ -24,9 +24,9 @@ public class Player : MonoBehaviour
 
     private void OnDisable()
     {
-        _hotkeyReader.PressedMove -= Move;
-        _hotkeyReader.PressedJump -= Jump;
-        _hotkeyReader.PressedAttack -= Attack;
+        _inputService.PressedMove -= Move;
+        _inputService.PressedJump -= Jump;
+        _inputService.PressedAttack -= Attack;
         _bodyCollider.CoinCollected -= CoinCollect;
         _bodyCollider.HealerCollected -= Heal;
         _health.Died -= OnDied;
