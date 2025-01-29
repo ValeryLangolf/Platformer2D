@@ -20,7 +20,7 @@ public class ZoneAttack : MonoBehaviour
 
     private void Awake()
     {
-        StartCoroutine(Timing());
+        StartCoroutine(DetectObjectsPeriodically());
     }
 
     private void DetectObjectsInView()
@@ -47,7 +47,7 @@ public class ZoneAttack : MonoBehaviour
         }
     }
 
-    private IEnumerator Timing()
+    private IEnumerator DetectObjectsPeriodically()
     {
         while (_isWorking)
         {

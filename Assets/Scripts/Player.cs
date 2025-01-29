@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Character _character;
     [SerializeField] private Health _health;
 
-    [Header ("Parameters:")]
+    [Header("Parameters:")]
     [SerializeField] private float _speedMoving;
     [SerializeField] private float _forceJump;
     [SerializeField] private float _damage;
@@ -17,8 +17,7 @@ public class Player : MonoBehaviour
         _inputService.PressedMove += Move;
         _inputService.PressedJump += Jump;
         _inputService.PressedAttack += Attack;
-        _bodyCollider.CoinCollected += CoinCollect;
-        _bodyCollider.HealerCollected += Heal;
+        _bodyCollider.ItemCollected += CollectItem;
         _health.Died += OnDied;
     }
 
@@ -27,8 +26,7 @@ public class Player : MonoBehaviour
         _inputService.PressedMove -= Move;
         _inputService.PressedJump -= Jump;
         _inputService.PressedAttack -= Attack;
-        _bodyCollider.CoinCollected -= CoinCollect;
-        _bodyCollider.HealerCollected -= Heal;
+        _bodyCollider.ItemCollected -= CollectItem;
         _health.Died -= OnDied;
     }
 
@@ -47,14 +45,12 @@ public class Player : MonoBehaviour
         _character.Attack(_damage);
     }
 
-    private void CoinCollect(Coin coin)
+    private void CollectItem(Item item)
     {
-        Destroy(coin.gameObject);
-    }
-    
-    private void Heal(Healer healer)
-    {
-        healer.Apply(_health);
+        if (item is Coin coin)
+            Destroy(coin.gameObject);
+        else if (item is Healer healer)
+            healer.Apply(_health);
     }
 
     private void OnDied()

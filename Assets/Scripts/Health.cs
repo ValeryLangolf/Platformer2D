@@ -5,7 +5,7 @@ public class Health : MonoBehaviour
 {
     private const float MaxHP = 100;
 
-    [SerializeField] private float _health;
+    [SerializeField] private float _value;
 
     public event Action<float> Changed;
     public event Action Died;
@@ -15,24 +15,24 @@ public class Health : MonoBehaviour
         if (value < 0)
             throw new ArgumentException(ErrorMessages.NegativeValue);
 
-        _health -= value;
+        _value -= value;
 
-        Changed?.Invoke(_health);
+        Changed?.Invoke(_value);
 
-        if (_health <= 0)
+        if (_value <= 0)
             Died?.Invoke();
     }
 
-    public void Heal(float value)
+    public void TakeHeal(float value)
     {
         if (value < 0)
             throw new ArgumentException(ErrorMessages.NegativeValue);
 
-        _health += value;
+        _value += value;
 
-        if (_health > MaxHP)
-            _health = MaxHP;
+        if (_value > MaxHP)
+            _value = MaxHP;
 
-        Changed?.Invoke(_health);
+        Changed?.Invoke(_value);
     }
 }
