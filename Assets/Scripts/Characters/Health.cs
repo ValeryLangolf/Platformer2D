@@ -7,7 +7,7 @@ public class Health : MonoBehaviour
 
     [SerializeField] private float _value;
 
-    public event Action<float> Changed;
+    public event Action<float> ValueChanged;
     public event Action Died;
 
     public void TakeDamage(float value)
@@ -17,7 +17,7 @@ public class Health : MonoBehaviour
 
         _value -= value;
 
-        Changed?.Invoke(_value);
+        ValueChanged?.Invoke(_value);
 
         if (_value <= 0)
             Died?.Invoke();
@@ -33,6 +33,6 @@ public class Health : MonoBehaviour
         if (_value > MaxHP)
             _value = MaxHP;
 
-        Changed?.Invoke(_value);
+        ValueChanged?.Invoke(_value);
     }
 }

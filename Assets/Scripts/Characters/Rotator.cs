@@ -35,10 +35,10 @@ public class Rotator : MonoBehaviour
             StopCoroutine(_coroutine);
 
         Quaternion targetRotation = Quaternion.Euler(0, angle, 0);
-        _coroutine = StartCoroutine(Rotating(targetRotation));
+        _coroutine = StartCoroutine(RotateTo(targetRotation));
     }
 
-    private IEnumerator Rotating(Quaternion targetRotation)
+    private IEnumerator RotateTo(Quaternion targetRotation)
     {
         while (_model.transform.rotation != targetRotation)
         {

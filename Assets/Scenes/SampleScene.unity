@@ -16123,6 +16123,10 @@ PrefabInstance:
       propertyPath: _animator
       value: 
       objectReference: {fileID: 2138574957}
+    - target: {fileID: 5632851103102383215, guid: d587debb9128b894b96adec9e926710a, type: 3}
+      propertyPath: _value
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 9057824900985654424, guid: d587debb9128b894b96adec9e926710a, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -16228,6 +16232,10 @@ PrefabInstance:
     - target: {fileID: 3213244187097561771, guid: d587debb9128b894b96adec9e926710a, type: 3}
       propertyPath: m_Name
       value: Character
+      objectReference: {fileID: 0}
+    - target: {fileID: 5632851103102383215, guid: d587debb9128b894b96adec9e926710a, type: 3}
+      propertyPath: _value
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 9057824900985654424, guid: d587debb9128b894b96adec9e926710a, type: 3}
       propertyPath: m_RootOrder
