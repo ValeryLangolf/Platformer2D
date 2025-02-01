@@ -1,4 +1,5 @@
 using UnityEngine;
+using MyIndicatorHealth;
 
 public class Enemy : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private PlayerDetector _playerDetector;
     [SerializeField] private ZoneAttack _zoneAttack;
     [SerializeField] private Health _health;
+    [SerializeField] private HealthBarSmoothBase _sliderView;
 
     [Header("Parameters:")]
     [SerializeField] private float _speedMoving;
@@ -43,7 +45,7 @@ public class Enemy : MonoBehaviour
         _character.TouchedWall += OnJump;
         _zoneAttack.Detected += OnAttacking;
         _zoneAttack.Undetected += OffAttacking;
-        _health.Died += OnDied;
+        _sliderView.Died += OnDied;
     }
 
     private void OnDisable()
@@ -53,7 +55,7 @@ public class Enemy : MonoBehaviour
         _character.TouchedWall -= OnJump;
         _zoneAttack.Detected -= OnAttacking;
         _zoneAttack.Undetected -= OffAttacking;
-        _health.Died -= OnDied;
+        _sliderView.Died -= OnDied;
     }
 
     private void OnChasing(Character player)

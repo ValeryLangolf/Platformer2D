@@ -10,7 +10,7 @@ public class Character : MonoBehaviour
     [SerializeField] private Rotator _rotator;
     [SerializeField] private Jumper _jumper;
     [SerializeField] private Mover _mover;
-    [SerializeField] private Health _health;
+    [SerializeField] private MyIndicatorHealth.Health _health;
     [SerializeField] private Attacker _attacker;
     [SerializeField] private ZoneAttack _zoneAttack;
 

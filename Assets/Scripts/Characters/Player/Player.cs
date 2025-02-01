@@ -1,4 +1,5 @@
 using UnityEngine;
+using MyIndicatorHealth;
 
 public class Player : MonoBehaviour
 {
@@ -6,6 +7,7 @@ public class Player : MonoBehaviour
     [SerializeField] private BodyCollider _bodyCollider;
     [SerializeField] private Character _character;
     [SerializeField] private Health _health;
+    [SerializeField] private HealthBarSmoothBase _sliderView;
 
     [Header("Parameters:")]
     [SerializeField] private float _speedMoving;
@@ -18,7 +20,7 @@ public class Player : MonoBehaviour
         _inputService.PressedJump += Jump;
         _inputService.PressedAttack += Attack;
         _bodyCollider.ItemCollected += CollectItem;
-        _health.Died += OnDied;
+        _sliderView.Died += OnDied;
     }
 
     private void OnDisable()
@@ -27,7 +29,7 @@ public class Player : MonoBehaviour
         _inputService.PressedJump -= Jump;
         _inputService.PressedAttack -= Attack;
         _bodyCollider.ItemCollected -= CollectItem;
-        _health.Died -= OnDied;
+        _sliderView.Died -= OnDied;
     }
 
     private void Move(float directionMultiplier)
