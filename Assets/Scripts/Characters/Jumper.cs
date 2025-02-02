@@ -1,14 +1,8 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
 public class Jumper : MonoBehaviour
 {
-    private Rigidbody2D _rigidbody;
-
-    private void Awake()
-    {
-        _rigidbody = GetComponent<Rigidbody2D>();
-    }
+    [SerializeField] private Rigidbody2D _rigidbody;
 
     public void Jump(float force)
     {

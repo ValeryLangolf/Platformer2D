@@ -1,26 +1,32 @@
 using UnityEngine;
-using MyIndicatorHealth;
 
 public class Player : MonoBehaviour
 {
     [SerializeField] private InputService _inputService;
-    [SerializeField] private BodyCollider _bodyCollider;
     [SerializeField] private Character _character;
-    [SerializeField] private Health _health;
-    [SerializeField] private HealthBarSmoothBase _sliderView;
 
+    [Header("Layers:")]
+    [SerializeField] private string _ignore;
+    [SerializeField] private LayerMask _target;
+    
     [Header("Parameters:")]
     [SerializeField] private float _speedMoving;
     [SerializeField] private float _forceJump;
     [SerializeField] private float _damage;
+
+    private void Awake()
+    {
+        _character.SetIgnoreLayer(LayerMask.NameToLayer(_ignore));
+        _character.SetTargetLayer(_target);
+    }
 
     private void OnEnable()
     {
         _inputService.PressedMove += Move;
         _inputService.PressedJump += Jump;
         _inputService.PressedAttack += Attack;
-        _bodyCollider.ItemCollected += CollectItem;
-        _sliderView.Died += OnDied;
+        _character.ItemCollected += CollectItem;
+        _character.Died += OnDied;
     }
 
     private void OnDisable()
@@ -28,8 +34,8 @@ public class Player : MonoBehaviour
         _inputService.PressedMove -= Move;
         _inputService.PressedJump -= Jump;
         _inputService.PressedAttack -= Attack;
-        _bodyCollider.ItemCollected -= CollectItem;
-        _sliderView.Died -= OnDied;
+        _character.ItemCollected -= CollectItem;
+        _character.Died -= OnDied;
     }
 
     private void Move(float directionMultiplier)
@@ -52,7 +58,10 @@ public class Player : MonoBehaviour
         if (item is Coin coin)
             Destroy(coin.gameObject);
         else if (item is Healer healer)
-            healer.Apply(_health);
+        {
+            _character.TakeHeal(healer.Value);
+            Destroy(healer.gameObject);
+        }
     }
 
     private void OnDied()

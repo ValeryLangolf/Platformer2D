@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class BodyCollider : MonoBehaviour
+public class ItemDetector : MonoBehaviour
 {
     [SerializeField] private Character _character;
 

@@ -10,6 +10,12 @@ public class Rotator : MonoBehaviour
 
     private Coroutine _coroutine;
     private bool _isLeft;
+    private Transform _transform;
+
+    private void Awake()
+    {
+        _transform = _model.transform;
+    }
 
     public void RotateLeft()
     {
@@ -40,11 +46,11 @@ public class Rotator : MonoBehaviour
 
     private IEnumerator RotateTo(Quaternion targetRotation)
     {
-        while (_model.transform.rotation != targetRotation)
+        while (_transform.rotation != targetRotation)
         {
             yield return null;
 
-            _model.transform.rotation = Quaternion.RotateTowards(_model.transform.rotation, targetRotation, _speed * Time.deltaTime);
+            _transform.rotation = Quaternion.RotateTowards(_transform.rotation, targetRotation, _speed * Time.deltaTime);
         }
     }
 }

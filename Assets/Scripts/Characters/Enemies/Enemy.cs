@@ -1,5 +1,4 @@
 using UnityEngine;
-using MyIndicatorHealth;
 
 public class Enemy : MonoBehaviour
 {
@@ -11,9 +10,10 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Point _firstPoint;
     [SerializeField] private Point _secondPoint;
     [SerializeField] private PlayerDetector _playerDetector;
-    [SerializeField] private ZoneAttack _zoneAttack;
-    [SerializeField] private Health _health;
-    [SerializeField] private HealthBarSmoothBase _sliderView;
+
+    [Header("Layers:")]
+    [SerializeField] private string _ignore;
+    [SerializeField] private LayerMask _target;
 
     [Header("Parameters:")]
     [SerializeField] private float _speedMoving;
@@ -28,6 +28,9 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         _currentTarget = _firstPoint.transform;
+
+        _character.SetIgnoreLayer(LayerMask.NameToLayer(_ignore));
+        _character.SetTargetLayer(_target);
     }
 
     private void Update()
@@ -43,9 +46,9 @@ public class Enemy : MonoBehaviour
         _playerDetector.Detected += OnChasing;
         _playerDetector.Undetected += OffChasing;
         _character.TouchedWall += OnJump;
-        _zoneAttack.Detected += OnAttacking;
-        _zoneAttack.Undetected += OffAttacking;
-        _sliderView.Died += OnDied;
+        _character.InZoneAttack += OnAttacking;
+        _character.OutZoneAttack += OffAttacking;
+        _character.Died += OnDied;
     }
 
     private void OnDisable()
@@ -53,9 +56,9 @@ public class Enemy : MonoBehaviour
         _playerDetector.Detected -= OnChasing;
         _playerDetector.Undetected -= OffChasing;
         _character.TouchedWall -= OnJump;
-        _zoneAttack.Detected -= OnAttacking;
-        _zoneAttack.Undetected -= OffAttacking;
-        _sliderView.Died -= OnDied;
+        _character.InZoneAttack -= OnAttacking;
+        _character.OutZoneAttack -= OffAttacking;
+        _character.Died -= OnDied;
     }
 
     private void OnChasing(Character player)
@@ -68,28 +71,6 @@ public class Enemy : MonoBehaviour
     {
         _isChasing = false;
         ReplaceTargetPoint();
-    }
-
-    private void OnJump()
-    {
-        _character.Jump(_forceJump);
-    }
-
-    private void OnAttacking()
-    {
-        _isOnAttacking = true;
-        _character.Attack(_damage);
-        _character.Move(0, 0);
-    }
-
-    private void OffAttacking()
-    {
-        _isOnAttacking = false;
-    }
-
-    private void OnDied()
-    {
-        Destroy(gameObject);
     }
 
     private void Move()
@@ -108,6 +89,19 @@ public class Enemy : MonoBehaviour
 
         _character.Move(currentMultiplier, _speedMoving);
     }
+
+    private void OnJump() => _character.Jump(_forceJump);
+
+    private void OnDied() => Destroy(gameObject);
+
+    private void OnAttacking()
+    {
+        _isOnAttacking = true;
+        _character.Attack(_damage);
+        _character.Move(0, 0);
+    }
+
+    private void OffAttacking() => _isOnAttacking = false;
 
     private void ReplaceTargetPoint()
     {

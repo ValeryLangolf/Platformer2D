@@ -8,13 +8,13 @@ public class PlayerDetector : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.transform.TryGetComponent<BodyCollider>(out BodyCollider body))
+        if (collision.transform.TryGetComponent<ItemDetector>(out ItemDetector body))
             Detected?.Invoke(body.Character);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.transform.TryGetComponent<BodyCollider>(out _))
+        if (collision.transform.TryGetComponent<ItemDetector>(out _))
             Undetected?.Invoke();
     }
 }

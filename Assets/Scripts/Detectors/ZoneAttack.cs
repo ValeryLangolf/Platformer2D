@@ -6,8 +6,9 @@ public class ZoneAttack : MonoBehaviour
 {
     private const float TimeWait = 0.2f;
 
-    [SerializeField, Min(0.1f)] private float _distance;
-    [SerializeField] private LayerMask _targetLayer;
+    [SerializeField, Min(0.1f)] private float _distance;    
+    
+    private LayerMask _targetLayer;
 
     public event Action Detected;
     public event Action Undetected;
@@ -23,6 +24,11 @@ public class ZoneAttack : MonoBehaviour
         StartCoroutine(DetectObjectsPeriodically());
     }
 
+    public void SetTargetLayer(LayerMask layer)
+    {
+        _targetLayer = layer;
+    }
+
     private void DetectObjectsInView()
     {
         int hitCount = Physics2D.RaycastNonAlloc(transform.position, transform.up, _hits, _distance, _targetLayer);
@@ -31,7 +37,7 @@ public class ZoneAttack : MonoBehaviour
 
         for (int i = 0; i < hitCount; i++)
         {
-            if (_hits[i].collider != null && _hits[i].collider.TryGetComponent<BodyCollider>(out BodyCollider body))
+            if (_hits[i].collider != null && _hits[i].collider.TryGetComponent<ItemDetector>(out ItemDetector body))
             {
                 Character = body.Character;
                 Detected?.Invoke();

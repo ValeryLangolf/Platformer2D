@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class GroundCollider : MonoBehaviour
+public class GroundDetector : MonoBehaviour
 {
     private int _numberOccurrences;
 
